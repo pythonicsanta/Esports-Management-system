@@ -1,0 +1,17 @@
+{%extends "blog/base.html"%}
+{%load crispy_forms_tags%}
+{%block content%}
+
+      <form id="post_form" method="post" action="" enctype="multipart/form-data">
+
+      {% csrf_token %}
+
+      {{ formset.management_form }}
+      {% for form in formset %}
+      {{ form }}
+      {% endfor %}
+
+      <p></p>
+      <button class="btn btn-outline-danger" type="submit">Submit Result</button>
+      </form>
+{%endblock%}

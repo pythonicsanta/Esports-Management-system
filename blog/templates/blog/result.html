@@ -1,0 +1,52 @@
+{%extends "blog/base.html"%}
+{%load crispy_forms_tags%}
+{%block content%}
+
+      <form method="POST" >
+          {% csrf_token %}
+              	<table class="table">
+                  		<thead>
+                      			<tr>
+
+                            				<th>S No.</th>
+                            				<th>Player Name</th>
+                                    	<th>Player Name</th>
+                                      	<th>Player Name</th>
+                                        	<th>Player Name</th>
+
+                            				{%if request.user.is_organizer == True%}
+                                          <th >Mobile Number</th>
+                                    {%endif%}
+                                            <th >Kills</th>
+
+                      			</tr>
+                  		</thead>
+                  		<tbody>
+
+                            {%for result in results%}
+                              <tr >
+                                <td>{{forloop.counter}}</td>
+                                <td>{{ result.players.player1 }}</td>
+                                <td>{{ result.players.player2 }}</td>
+                                <td>{{ result.players.player3 }}</td>
+                                <td>{{ result.players.player4 }}</td>
+                                {%if request.user.is_organizer == True and result.post_id.author == request.user%}
+                                      <td >{{result.players.mobilenumber}}</td>
+                                  {%else%}
+                                    <td>-- </td>
+                                {%endif%}
+                                <td><label class="add_student_attendance"> <input type="number" value="{{result.players.kills }}" max_length="2" size="2" name="kills"></input></label></td>
+
+                            {%endfor%}
+
+                  		</tbody>
+              	</table>
+
+
+                 <input type="submit" value="Update Result" class="btn btn-primary" name="post">
+
+
+      </form>
+
+
+{%endblock%}

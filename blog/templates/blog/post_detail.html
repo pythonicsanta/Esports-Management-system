@@ -1,0 +1,130 @@
+
+{%extends "blog/base.html"%}
+
+{%block content%}
+<h1> blog-home!</h1>
+
+      <article class="media content-section">
+        <!---- here object is the post object ---->
+        <img class="rounded-circle article-img" src="{{object.author.profile.profile_image.url}}">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="#">Organizer :{{ object.author }}</a>
+            <small class="text-muted">{{ object.date_posted |date:"d F Y"}}</small>
+
+
+
+
+
+            {%if object.author == user and user.is_organizer == True or  user.is_staff == True %}
+                <div>
+                  <a class = "btn btn-secondary btn-sm mt-1 mb-1" href="{%url 'post-update' object.id %}">Update</a>
+                  <a class = "btn btn-danger btn-sm mt-1 mb-1" href="{%url 'post-delete' object.id %}">Delete</a>
+                  <a class = "btn btn-secondary btn-sm mt-1 mb-1" href="{%url 'post-result-image' object.id %}">Post Results</a>
+                  <div class="border-top pt-0">
+                      <small class="text_muted">
+                           Looking for alternate way? <a class="ml-2" href="{%url 'post-result' object.id%}">Post Result</a>
+                      </small>
+                  </div>
+
+                </div>
+
+            {%endif%}
+
+          </div>
+          <h2 class="article-title"> {{ object.title }}</h2>
+          <p class="article-content">Match Type : {{ object.match_type }}</p>
+          <p class="article-content">Match Date : {{ object.match_date }}</p>
+          <p class="article-content">Total Slots : {{ object.num_seats }}</p>
+          <p class="article-content">Details : {{ object.description }}</p>
+            <p class="article-content">Total Prize : {{ object.prize }}</p>
+          <p class="article-content">Booked : {{count }} / {{total_seats}}</p>
+
+        </div>
+
+      </article>
+        <div class="">
+            {%if status == False %}
+
+                   <a class = "btn btn-danger btn-sm mt-1 mb-1" href="#">Registeration Over</a>
+
+            {%else%}
+                 <a class = "btn btn-secondary btn-sm mr-2 mt-1 mb-1" href="#fill">Register </a>
+            {%endif%}
+
+
+            {%if object.author == user and user.is_organizer == True or  user.is_staff == True%}
+
+                  <a class = "btn btn-danger btn-sm mt-1 mb-1" href="{%url 'post-registerations' object.id %}">View Registerations</a>
+                  {%if user.is_staff == True%}
+                  <div class="border-top pt-0">
+                  <small class="text_muted">
+                            Total Sum : ₹{{ total_sum }}
+                  </small></div>
+                  {%endif%}
+            {%endif%}
+      </div>
+
+<!--------------------------Room details form ------------------------------------------------------->
+
+  {%if object.author == user and user.is_organizer == True or  user.is_staff == True%}
+        <form id="action-form" method="POST" action="{% url 'post-room-details' object.id %}">
+          {% csrf_token %}
+                <p>
+                <div class="row form-group">
+                    <label for="fullname" >Room Details</label>
+                    <input type="text" id="fullname" max_length="60"placeholder="Room id and password" class="form-control" name="room" required="">
+              </div>
+                <button class="btn btn-outline-danger" type="submit">Post</button>
+          </form>
+
+{%endif%}
+
+
+  <!------------------------------------------ User Booking form------------------------------------------------->
+
+
+
+      <form id="action-form" method="POST" action="{% url 'post-book' object.id %}">
+        {% csrf_token %}
+        <div >
+                {%if not object.author == user and status == True %}
+
+                      <div>
+                        <p></p>
+                        <a id = "fill">Registertion Form</a>
+                        <p></p>
+                      </div>
+
+                      <div class="row form-group">
+                        <div class="col-md-12">
+
+                          <label for="fullname" >Mobile Number*</label>
+                          <input type="number" placeholder="Prize to be recieved on" id="fullname" class="form-control" name="phone" required="">
+
+                          <label for="fullname" >Player 1*</label>
+                          <input type="text" id="fullname" placeholder="Player Game Name" class="form-control" name="player1"  required="">
+                          <label for="fullname" >Player 2</label>
+                          <input type="text" id="fullname" placeholder="Player Game Name" class="form-control" name="player2" >
+                          <label for="fullname" >Player 3</label>
+                          <input type="text" id="fullname" placeholder="Player Game Name" class="form-control" name="player3" >
+                          <label for="fullname" >Player 4</label>
+                          <input type="text" id="fullname" placeholder="Player Game Name" class="form-control" name="player4" >
+
+                        </div>
+                      </div>
+
+                </form>
+                {%if not object.author == user and status == True %}
+                    <button class="btn btn-outline-danger" type="submit">Pay Now ₹ {{object.entry_fee}}</button>
+
+
+
+                {%endif%}
+              {%endif%}
+
+        </div>
+
+
+
+{%endblock%}

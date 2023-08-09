@@ -1,0 +1,32 @@
+{%load static%}
+﻿<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+  <head>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <title>َLogin Form</title>
+    <link rel="stylesheet" href="{% static 'blog/style.css'%}">
+  </head>
+    <main role="main" class="container">
+  {%if messages%}
+     {%for message in messages%}
+        <div class="alert alert-{{message.tags}}">
+           {{message}}
+        </div>
+     {%endfor%}
+  {%endif%}</main>
+  <body>
+
+<form class="box" action="" method="post">
+  {%csrf_token%}
+  <h1>Login</h1>
+
+  <input type="text" name="username" placeholder="Username" required="">
+  <input type="password" name="password" placeholder="Password" required="">
+  <input type="submit" name="" value="Login">
+</form>
+
+
+  </body>
+</html>

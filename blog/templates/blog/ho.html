@@ -1,0 +1,34 @@
+{%extends "blog/base.html"%}
+{%load crispy_forms_tags%}
+{%block content%}
+      <form id="action-form" method="POST" action=''>
+        {% csrf_token %}
+
+
+
+              <div class="row form-group">
+                <div class="col-md-12">
+                  <label for="fullname" >Mobile Number</label>
+                  <input type="number" id="fullname" class="form-control" name="phone" required="">
+
+                  <label for="fullname" >Player 1</label>
+                  <input type="text" id="fullname" class="form-control" name="player1"  required="">
+                  <label for="fullname" >Player 2</label>
+                  <input type="text" id="fullname" class="form-control" name="player2" >
+                  <label for="fullname" >Player 3</label>
+                  <input type="text" id="fullname" class="form-control" name="player3" >
+                  <label for="fullname" >Player 4</label>
+                  <input type="text" id="fullname" class="form-control" name="player4" >
+
+                </div>
+              </div>
+
+
+              <div class="form-group">
+                 <button class="btn btn-outline-danger" type="submit">Yes Register</button>
+              </div>
+
+        </form>
+
+
+{%endblock%}
